@@ -1,0 +1,23 @@
+#include <stdio.h>
+int main() {
+int n, i, j, temp;
+printf("Enter the size of the string: ");
+scanf("%d", &n);
+char a[n];  
+    printf("Enter the  string:\n");
+   scanf("%s",a);
+   
+for (i = 0; i < n - 1; i++) {
+      for (j = i+1; j < n; j++) {
+          if (a[j]<a[i]) {
+                a[i]=a[i]+a[j];
+                a[j]=a[i]-a[j];
+                a[i]=a[i]-a[j];
+            }
+        }
+    }
+    printf("The sorted array is:%s ",a);
+    
+    printf("\n");
+return 0;
+}
