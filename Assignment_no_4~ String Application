@@ -1,0 +1,27 @@
+#include <stdio.h>
+int main() {    
+ int i, j, key,n; 
+
+ printf("enter the size of string:");
+ scanf("%d",&n);
+  char str[n];
+ printf("enter the string:");
+ scanf("%s",str);
+for (i = 1; i < n; i++) {
+     key = str[i];
+          
+    for (j = i - 1; j >= 0; j--) {
+       if (str[j] > key) {
+                str[j + 1] = str[j];
+        
+       } 
+       else {
+           break;
+     }
+ }
+        str[j + 1] = key;
+}   
+    printf("sorted string is:%s",str);
+    
+return 0;
+}
