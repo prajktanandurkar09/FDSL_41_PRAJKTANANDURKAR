@@ -1,0 +1,189 @@
+#include<stdio.h>
+struct Student {
+    char name[50];
+    int age;
+    float marks;
+    };
+int main(){
+int i, j, n, choice1,choice2,choice3,choice;
+    struct Student temp;
+struct Student temp2;
+struct Student key;
+    printf("Enter the number of students: ");
+    scanf("%d", &n);
+    struct Student students[n]; 
+    for (i = 0; i < n; i++) {
+        printf("\nEnter details for student %d:\n", i + 1);
+        printf("Name: ");
+        scanf(" %[^\n]", students[i].name); 
+        printf("Age: ");
+        scanf("%d", &students[i].age);
+        printf("Marks: ");
+        scanf("%f", &students[i].marks);
+    }
+    printf("enter your choice:  \n1.bubble sort \n 2.selection sort \n 3.insertion sort");
+    scanf("%d", &choice1);
+    switch (choice1){
+  case 1:
+    printf("\nBubble Sort by:\n1. Age\n2. Marks\nEnter your choice (1 or 2): ");
+    scanf("%d", &choice2);   
+     switch (choice2) {
+   case 1: 
+      for (i = 0; i < n - 1; i++) {
+       for (j = 0; j < n - i - 1; j++) {
+           if (students[j].age > students[j + 1].age) {
+                        temp = students[j];
+                        students[j] = students[j + 1];
+                        students[j + 1] = temp;
+                    }
+                }
+            }
+            printf("\nSorted by Age:\n");
+            break;
+
+        case 2:  
+            for (i = 0; i < n - 1; i++) {
+                for (j = 0; j < n - i - 1; j++) {
+                    if (students[j].marks > students[j + 1].marks) {
+                        temp = students[j];
+                        students[j] = students[j + 1];
+                        students[j + 1] = temp;
+                    }
+                }
+            }
+            printf("\nSorted by Marks:\n");
+            break;
+
+        default:
+            printf("\nInvalid choice! Sorting not performed.\n");
+            return 0;
+    }
+
+  
+    for (i = 0; i < n; i++) {
+        printf("Name: %s, Age: %d, Marks: %.2f\n", students[i].name, students[i].age, students[i].marks);
+    }
+
+break ;
+
+
+
+case 2:
+
+
+
+    printf("\nSort by:\n1. Age\n2. Marks\nEnter your choice (1 or 2): ");
+    scanf("%d", &choice3);
+
+    
+    switch (choice3) {
+   case 1: 
+      for (i = 0; i < n - 1; i++) {
+       for (j = i+1; j < n ; j++) {
+           if (students[i].age > students[j ].age) {
+                        temp2 = students[i];
+                        students[i] = students[j];
+                        students[j] = temp2;
+                    }
+                }
+            }
+            printf("\nSorted by Age:\n");
+            break;
+
+        case 2:  
+            for (i = 0; i < n - 1; i++) {
+                for (j = i+1; j < n ; j++) {
+                    if (students[i].marks > students[j ].marks) {
+                        temp2 = students[i];
+                        students[i] = students[j];
+                        students[j] = temp2;
+                    }
+                }
+            }
+            printf("\nSorted by Marks:\n");
+            break;
+
+        default:
+            printf("\nInvalid choice! Sorting not performed.\n");
+           
+    }
+
+  
+    for (i = 0; i < n; i++) {
+        printf("Name: %s, Age: %d, Marks: %.2f\n", students[i].name, students[i].age, students[i].marks);
+    }
+
+    break ;
+    
+    
+case 3:
+
+       printf("\nSort by:\n1. Name\n2. Age\n3. Marks\nEnter your choice: ");
+    scanf("%d", &choice);
+
+    
+    switch (choice) {
+        case 1: 
+            for (i = 1; i < n; i++) {
+                key = students[i];
+                for (j = i - 1; j >= 0; j--) {
+                    if (strcmp(students[j].name, key.name) > 0) {
+                        students[j + 1] = students[j];
+                    } else {
+                        break;
+                    }
+                }
+                students[j + 1] = key;
+            }
+            printf("\nSorted by Name:\n");
+            break;
+
+        case 2:
+            for (i = 1; i < n; i++) {
+                key = students[i];
+                for (j = i - 1; j >= 0; j--) {
+                    if (students[j].age > key.age) {
+                        students[j + 1] = students[j];
+                    } else {
+                        break;
+                    }
+                }
+                students[j + 1] = key;
+            }
+            printf("\nSorted by Age:\n");
+            break;
+
+        case 3: 
+            for (i = 1; i < n; i++) {
+                key = students[i];
+                for (j = i - 1; j >= 0; j--) {
+                    if (students[j].marks > key.marks) {
+                        students[j + 1] = students[j];
+                    } else {
+                        break;
+                    }
+                }
+                students[j + 1] = key;
+            }
+            printf("\nSorted by Marks:\n");
+            break;
+
+        default:
+            printf("\nInvalid choice! Sorting not performed.\n");
+            return 1;
+    }
+   
+    for (i = 0; i < n; i++) {
+        printf("Name: %s, Age: %d, Marks: %.2f\n", students[i].name, students[i].age, students[i].marks);
+    }
+   
+   
+    default:
+    printf("enter valid choice ");
+    }
+    
+    return 0;
+    }
+    
+    
+    
