@@ -1,0 +1,99 @@
+#include<stdio.h>
+struct student {
+    int roll_no;
+    char name[20];
+    float marks;
+};
+int main(){
+char key2[20];
+float key3;
+int i ,n,key1,found=0,choice;
+printf("enter the number of students:");
+scanf("%d",&n);
+struct student a[n];
+   printf("enter student data:");
+   for(i=1;i<=n;i++){
+    printf("\nEnter details for student %d\n", i );
+        printf("Roll No: ");
+        scanf("%d", &a[i].roll_no);
+        printf("name: ");
+        scanf("%s", a[i].name);
+        printf("Marks: ");
+        scanf("%f", &a[i].marks);
+    }   
+   printf("enter your choice that you want to search by:");
+   printf("1.roll_no \n 2.name \n 3. marks");
+    
+    
+   switch (choice){
+   
+   case 1:
+   
+   
+  printf("enter the roll no of student data you want to search:");
+  scanf("%d",&key1);
+  
+  for(i=0;i<n;i++){
+    if(key1 == a[i].roll_no){
+    printf("\nthe %d roll no is present in list",key1);
+      printf("\nthe student (roll no %d) data is: ",key1);
+       printf("\nName:%s \n roll no:%d \n marks:%.2f",a[i].name,a[i].roll_no,a[i].marks);
+     
+      found=1;
+      break;
+      }
+      }    
+    if(found==0){
+      printf("this roll no is not present ,please enter correct roll no:");
+      }
+      break;
+ 
+ 
+ 
+ case 2:
+      printf("enter the marksof student data you want to search:");
+  scanf("%s",&key2);
+  
+  for(i=0;i<n;i++){
+    if(key2 == a[i].name){
+    printf("\nthe name is present in list",key2);
+      printf("\nthe student  data is: ");
+       printf("\nName:%s \n roll no:%d \n marks:%.2f",a[i].name,a[i].roll_no,a[i].marks);
+     
+      found=1;
+      break;
+      }
+      }    
+    if(found==0){
+      printf("this name is not present ,please enter correct name:");
+      }
+ 
+ break;
+ 
+ case 3:
+ 
+ printf("enter the marks of student data you want to search:");
+  scanf("%f",&key3);
+  
+  for(i=0;i<n;i++){
+    if(key3 == a[i].marks){
+    printf("\nthe marks of is present in list",key3);
+      printf("\nthe student(marks %.2f)  data is: ",key3);
+       printf("\nName:%s \n roll no:%d \n marks:%.2f",a[i].name,a[i].roll_no,a[i].marks);
+     
+      found=1;
+      break;
+      }
+      }    
+    if(found==0){
+      printf("this marks  are not present ,please enter correct marks:");
+      }
+ break;
+ 
+ 
+ default: printf("enter valid data");
+ }
+      return 0;
+      }
+      
+  
