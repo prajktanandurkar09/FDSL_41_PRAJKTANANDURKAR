@@ -1,0 +1,60 @@
+#include<stdio.h>
+int main(){
+int n,top=-1,i;
+int choice;
+printf("enter the size of array:");
+scanf("%d",&n);
+int a[n];
+
+
+while(1){
+printf("choose which operation you want to perform: \n 0.Exit \n 1.push\n 2.pop \n 3.dispaly");
+scanf("%d",&choice);
+
+switch(choice){
+case 1:
+
+
+if(top==n-1){
+       printf("stack is full");
+      break;
+       }
+       else{
+       int element;
+            
+           printf("enter the stack elements do you want to push:");
+           scanf("%d",&element);
+           top++;
+           a[top]=element;
+           }
+       break;
+case 2:
+
+
+   if(top==-1){
+   printf("stack is empty");
+   break;
+   }
+   else{
+   printf("%d is popped from stack\n",a[top]);
+   
+   top--;
+}
+
+   break; 
+case 3:
+
+printf("the stack elements are:\n");
+  for(i=top;i>=0;i--){
+printf("%d\t",a[i]);
+} 
+break;
+case 0:
+return 0;
+break;
+default:
+printf("please! enter valid choice:");
+   
+     }}
+return 0;
+}
