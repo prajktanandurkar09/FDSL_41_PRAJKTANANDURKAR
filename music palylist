@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <string.h>
+#define SIZE 5
+struct Song {
+    int id;
+    char name[100];
+    char artist[100];
+};
+struct Song playlist[SIZE];
+int front = -1, rear = -1;
+void enqueue(struct Song song) {
+    if ((front == 0 && rear == SIZE - 1) || (rear == (front - 1 + SIZE) % SIZE)) {
+        printf("Playlist is Full!\n");
+    } else if (front == -1) {
+        front = rear = 0;
+        playlist[rear] = song;
+    } else {
+        rear = (rear + 1) % SIZE;
+        playlist[rear] = song;
+    }
+}
+void dequeue() {
+    if (front == -1) {
+        printf("Playlist is Empty!\n");
+    } else {
+        printf("Now Playing: %s by %s (ID: %d)\n", playlist[front].name, playlist[front].artist, playlist[front].id);
+        if (front == rear) {
+            front = rear = -1;
+        } else {
+            front = (front + 1) % SIZE;
+        }
+    }
+}
+void display_playlist() {
+    if (front == -1) {
+        printf("Playlist is Empty\n");
+    } else {
+        printf("Current Playlist: \n");
+        int i = front;
+        while (i != rear) {
+            printf("ID: %d, Song: %s by %s\n", playlist[i].id, playlist[i].name, playlist[i].artist);
+            i = (i + 1) % SIZE;
+        }
+        printf("ID: %d, Song: %s by %s\n", playlist[rear].id, playlist[rear].name, playlist[rear].artist);
+    }
+}
+void display_pos() {
+    for (int i = 0; i < SIZE; i++) {
+        printf("%d: ID: %d, %s by %s\n", i + 1, playlist[i].id, playlist[i].name, playlist[i].artist);
+    }
+}
+int main() {
+    int choice;
+    struct Song song;
+    static int songID = 1;
+    while (1) {
+        printf("\nOperations on Music Playlist (Circular Queue)\n");
+        printf("1. Add Song to Playlist\n");
+        printf("2. Play Next Song\n");
+        printf("3. Display Playlist\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                song.id = songID++;
+                printf("Enter song name: ");
+                getchar();
+                fgets(song.name, sizeof(song.name), stdin);
+                song.name[strcspn(song.name, "\n")] = '\0';
+                printf("Enter artist name: ");
+                fgets(song.artist, sizeof(song.artist), stdin);
+                song.artist[strcspn(song.artist, "\n")] = '\0';
+                enqueue(song);
+                break;
+            case 2:
+                dequeue();
+                break;
+            case 3:
+                display_playlist();
+                break;
+            case 4:
+                return 0;
+            default:
+                printf("Invalid Choice!\n");
+        }
+    }
+    return 0;
+}
