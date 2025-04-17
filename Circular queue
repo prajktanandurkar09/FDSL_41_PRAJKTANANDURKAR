@@ -1,14 +1,11 @@
 #include <stdio.h>
-
 #define SIZE 5
-
 int queue[SIZE];
 int front = -1, rear = -1;
-
 void enqueue(int element) {
     if ((front == 0 && rear == SIZE - 1) || (rear == (front - 1 + SIZE) % SIZE)) {
         printf("Queue is Full\n");
-    } else if (front == -1) { // First element
+    } else if (front == -1) {
         front = rear = 0;
         queue[rear] = element;
     } else {
@@ -16,43 +13,43 @@ void enqueue(int element) {
         queue[rear] = element;
     }
 }
-
 void dequeue() {
     if (front == -1) {
         printf("Queue is Empty\n");
     } else {
         printf("Element deleted is %d\n", queue[front]);
-        if (front == rear) { // Queue has only one element
+        if (front == rear) {
             front = rear = -1;
         } else {
             front = (front + 1) % SIZE;
         }
     }
 }
-
 void display() {
     if (front == -1) {
         printf("Queue is Empty\n");
     } else {
         printf("Queue Elements: ");
-        int i = front;
-        while (1) {
+        int i;
+        for (i = front; i != rear; i = (i + 1) % SIZE) {
             printf("%d ", queue[i]);
-            if (i == rear)
-                break;
-            i = (i + 1) % SIZE;
         }
-        printf("\n");
+        printf("%d\n", queue[rear]); 
     }
 }
-
+void display_pos(){
+for(int i=0;i<=SIZE-1;i++){
+printf("%d\t",queue[i]);
+}
+printf("\n");
+}
 int main() {
     int choice, value;
-
     while (1) {
-        printf("\nOperations on Circular Queue\n1.Enqueue\n2.Dequeue\n3.Display\n4.Exit\nEnter your choice: ");
+        printf("\nOperations on Circular Queue\n");
+        printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n");
+        printf("Enter your choice: ");
         scanf("%d", &choice);
-
         switch (choice) {
             case 1:
                 printf("Enter value to enqueue: ");
@@ -63,7 +60,7 @@ int main() {
                 dequeue();
                 break;
             case 3:
-                display();
+                display_pos();
                 break;
             case 4:
                 return 0;
@@ -71,4 +68,5 @@ int main() {
                 printf("Invalid Choice!\n");
         }
     }
+    return 0;
 }
