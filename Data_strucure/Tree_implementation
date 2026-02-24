@@ -1,0 +1,269 @@
+#include<iostream>
+using namespace std;
+/*list of operations 
+1.creation                      -done 
+2.insertion                     -done
+3.diplay by all 3 orders        -done(currrently inorder)
+4.ancestor of tree              -done
+5.leafnode                      -done
+6.addnode                       -done
+7.height                        -done
+8.sibling                       -done
+9.searching a node in tree      -done
+10.ancestor of particular node  -done
+*/ 
+class ft{
+int age,cn,an;
+string name,edu;
+ft *lc,*rc;
+public :
+void create ();
+void insert(ft *root,ft *next);
+void display(ft *root);
+void ancestor(ft *root);
+void addnode();
+void leafnode(ft *root);
+int height(ft *root);
+void search(ft *root ,string key);
+void sibling(ft *root,string key1);
+void ancestorp(ft *root,string key2);
+void mirror(ft *root);
+}*root ;
+void ft::create(){
+    root =new ft;
+    cout<<"\nenter Details: ";
+    cout<<"\nenter name:";
+    cin>>root->name;
+    cout<<"enter age:\n";
+    cin>>root->age;
+    cout<<"enter contect no.:\n";
+    cin>>root->cn;
+    cout<<"enter your adhar no:\n";
+    cin>>root->an;
+    cout<<"enetr education:\n";
+    cin>>root->edu;
+    cout<<"details added successfully!\n";
+    root->rc=root->lc=NULL;
+
+ ft *next ;
+  int ch;
+    do{
+    next=new ft ;
+    cout<<"\nenter Details: ";
+    cout<<"\nenter name:";
+    cin>>next->name;
+    cout<<"enter age:\n";
+    cin>>next->age;
+    cout<<"enter contect no.:\n";
+    cin>>next->cn;
+    cout<<"enter your adhar no:\n";
+    cin>>next->an;
+    cout<<"enetr education:\n";
+    cin>>next->edu;
+    cout<<"details added successfully!\n"; 
+    next->rc=next->lc=NULL;     
+    insert(root ,next);
+     cout<<"do you want to add more details 1/0";     
+        cin>>ch;
+    }while(ch==1);
+}
+void ft::ancestor(ft *root){
+    cout<<"ancestor of Family tree is:"<<root->name;
+}
+void ft::insert(ft *root,ft *next){
+    char i;
+    cout<<"\nenter which side the details of" <<next->name<<" have to insert L/R";
+    cin>>i;
+    
+    if(i=='L'||i=='l'){
+        if(root->lc==NULL){
+            root->lc=next;
+}
+        else{
+            insert(root->lc,next);
+        }
+
+    }
+    
+    else if(i=='R'||i=='r'){
+        if(root->rc==NULL){
+            root->rc=next;
+
+        }
+        else{
+            insert(root->rc,next);
+    }
+
+}
+else{
+    cout<<"\nInvalid choice!"<<endl;
+}
+}
+void ft::addnode(){
+    ft *next;
+ next=new ft ;
+    cout<<"\nenter Details: ";
+    cout<<"\nenter name:";
+    cin>>next->name;
+    cout<<"enter age:\n";
+    cin>>next->age;
+    cout<<"enter contect no.:\n";
+    cin>>next->cn;
+    cout<<"enter your adhar no:\n";
+    cin>>next->an;
+    cout<<"enetr education:\n";
+    cin>>next->edu;
+    cout<<"details added successfully!\n";
+    
+    next->rc=next->lc=NULL;   
+    insert(root ,next);
+}
+void ft::leafnode(ft *root){
+    if(root==NULL){
+        return;
+    }
+    if(root->lc==NULL && root->rc==NULL){
+        cout<<"\n"<<root->name;    
+    cout<<"\t"<<root->age;
+    cout<<"\t"<<root->cn;
+    cout<<"\t  "<<root->an;
+    cout<<"\t  "<<root->edu;
+    }
+    leafnode (root->lc);
+    leafnode (root->rc);
+}
+void ft::search(ft *root, string key){
+    if (root == NULL){
+        return;
+    }
+    if (root->name == key){
+        cout << "\nMember Found:";
+        cout << "\n" << root->name << "\t" << root->age;
+        return;
+    }
+    search(root->lc, key);
+    search(root->rc, key);
+}
+void ft::display(ft *root){
+   
+       if(root==NULL){
+        return;
+       }
+       else{    
+    display(root->lc);
+    cout<<"\n"<<root->name;    
+    cout<<"\t"<<root->age;
+    cout<<"\t"<<root->cn;
+    cout<<"\t  "<<root->an;
+    cout<<"\t  "<<root->edu;
+   display (root->rc);
+       }
+    }
+   int ft::height(ft *root)
+{
+    if (root == NULL)
+    {
+        return -1; 
+    }
+    int leftHeight = height(root->lc);
+    int rightHeight = height(root->rc);
+    return max(rightHeight,leftHeight) + 1;
+}
+void ft::sibling(ft *root ,string key1){
+    if(root==NULL){
+        return ;
+
+    }
+    if (root->lc!=NULL&&root->rc!=NULL){
+        if(root->lc->name==key1){
+            cout<<"Sibling/:"<<root->rc->name ;
+        return;
+        }
+        if(root->rc->name==key1){
+            cout<<"Sibling:"<<root->lc->name ;
+        return;
+        }
+    }
+    sibling (root->lc,key1);
+    sibling (root->rc,key1);
+
+}
+void ft::ancestorp( ft *root,string key2){
+       if(root==NULL){
+        return ;
+
+    }
+    if ((root->lc!=NULL && root->lc->name==key2)||(root->rc!=NULL && root->rc->name ==key2)){
+       cout<<"Ancestor of "<<key2<<"is"<<root->name;
+    }
+    ancestorp (root->lc,key2);
+    ancestorp (root->rc,key2);
+}
+void ft::mirror(ft *root){
+    if(root==NULL){
+        return;
+    }
+    mirror(root->lc);
+    mirror(root->rc);
+    ft *temp;
+    temp=root->lc;
+    root->lc=root->rc;
+    root->rc=temp;
+    }
+int main(){
+    ft f;
+    int ch;
+    string key,key1,key2 ;
+    do{
+    cout<<"\nenter your choice :";
+    cout<<"\n1.create family tree\n2.display family tree\n3.add new member\n4.display new member \n5.display ancestor\n6.Height\n7.Display Current Generation \n8. search record \n9.Display Sibling  \n10.Ancestor of particular node \n11.Make mirror image of the tree \n12.exit";
+cin>>ch;
+switch(ch){
+    case 1:
+    f.create();
+    break;
+    case 2:
+    cout<<"\n--------------Details---------------";
+    cout<<"\nName |  Age  |  Con No.  |  Adhar No.  | Education";
+    f.display(root);
+    break;
+    case 3:
+    f.addnode();
+    break;
+    case 4:
+    f.leafnode(root);
+    break;
+    case 5:
+    f.ancestor(root);
+    break;
+    case 6:
+    cout << "Height of the tree is : " << f.height(root);
+    break;
+    case 7:
+    f.leafnode(root);
+    break;
+     case 8:
+     cout<<"enter the name of person you want to search:";
+  cin>>key;
+    f.search(root,key);
+    break;
+     case 9:
+     cout<<"enter whose sibling you want to search:";
+     cin>>key1;
+    f.sibling(root,key1);
+    break;
+     case 10:
+     cout<<"enter whose ancestor you want to find :";
+     cin>>key2;
+    f.ancestorp(root,key2);
+    break;
+    case 11:
+    f.mirror(root);
+    break;
+    default:
+    cout<<"invalid choice";
+    break;
+}
+}while(ch!=12);
+    return 0;
+}
