@@ -1,0 +1,144 @@
+#include<iostream>
+using namespace std;
+class graph{
+    int v;
+    int adj[100][100];
+    string city[100];
+                 // For adjacency list
+    struct node{
+        string city;
+        node *next;
+    };
+    node *root[100];
+public:
+    void create();
+    void addEdgeList();
+    void displayList();
+    void addEdgeMatrix();
+    void displayMatrix();
+} g;
+void graph::create(){
+    cout<<"Enter number of vertices: ";
+    cin>>v;
+    for(int i=0;i<v;i++){
+        cout<<"Enter city name: ";
+        cin>>city[i];
+                     // Matrix initialization
+        for(int j=0;j<v;j++){
+            adj[i][j]=0;
+        }
+                       // List initialization
+        root[i] = new node;
+        root[i]->city = city[i];
+        root[i]->next = NULL;
+    }
+}
+void graph::addEdgeList(){
+    string s,d;
+    int choice;
+    do{
+        cout<<"Enter source city: ";
+        cin>>s;
+        cout<<"Enter destination city: ";
+        cin>>d;
+        for(int i=0;i<v;i++){
+            if(root[i]->city == s){
+                node *temp = root[i];
+                node *newnode = new node;
+                newnode->city = d;
+                newnode->next = NULL;
+                while(temp->next != NULL){
+                    temp = temp->next;
+                }
+                temp->next = newnode;
+                break;
+            }
+        }
+        cout<<"Add more edges? (1/0): ";
+        cin>>choice;
+    }while(choice==1);
+}
+void graph::displayList(){
+    node *temp;
+    cout<<"\nAdjacency List:\n";
+    for(int i=0;i<v;i++){
+l
+        temp = root[i];
+        cout<<temp->city<<" -> ";
+        temp = temp->next;
+        while(temp!=NULL){
+            cout<<temp->city<<" -> ";
+            temp = temp->next;
+        }
+        cout<<"NULL\n";
+    }
+}
+void graph::addEdgeMatrix(){
+    string s,d;
+    int choice;
+    do{
+        cout<<"Enter source city: ";
+        cin>>s;
+        cout<<"Enter destination city: ";
+        cin>>d;
+        int si=-1, di=-1;
+        for(int i=0;i<v;i++){
+            if(city[i]==s) si=i;
+            if(city[i]==d) di=i;
+        }
+        if(si!=-1 && di!=-1){
+            adj[si][di] = 1;
+        }
+        else{
+            cout<<"City not found!";
+        }
+        cout<<"Add more edges? (1/0): ";
+        cin>>choice;
+    }while(choice==1);
+}
+void graph::displayMatrix(){
+    cout<<"\nAdjacency Matrix:\n";
+
+    for(int i=0;i<v;i++){
+        for(int j=0;j<v;j++){
+            cout<<adj[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+}
+int main(){
+    int ch;
+    do{
+        cout<<"\n1.Create Graph";
+        cout<<"\n2.Add Edge (Adj List)";
+        cout<<"\n3.Display Adj List";
+        cout<<"\n4.Add Edge (Adj Matrix)";
+        cout<<"\n5.Display Adj Matrix";
+        cout<<"\n6.Exit";
+        cout<<"\nEnter choice: ";
+        cin>>ch;
+        switch(ch){
+            case 1:
+                g.create();
+                break;
+            case 2:
+                g.addEdgeList();
+                break;
+            case 3:
+                g.displayList();
+                break;
+            case 4:
+                g.addEdgeMatrix();
+                break;
+            case 5:
+                g.displayMatrix();
+                break;
+            case 6:
+                cout<<"Exiting...";
+                break;
+            default:
+                cout<<"Invalid choice!";
+        }
+    }while(ch!=6);
+    return 0;
+}
