@@ -1,0 +1,242 @@
+#include<iostream>
+using namespace std;
+class Student{
+    int seatNo;
+    string name;
+    float cet;
+    string college;
+    Student *lc,*rc;
+public:
+    void create();
+    void insert(Student *root, Student *next);
+    void display(Student *root);
+    void search(Student *root,int seat);
+    int count(Student *root);
+    int height(Student *root);
+    void highestCET(Student *root);
+    void lowestCET(Student *root);
+    void displayIIT(Student *root);
+    void displayNonIIT(Student *root);
+    void top3(Student *root,int &cnt);
+} *root;
+void Student::create(){
+    root = new Student;
+    cout<<"\nEnter Seat No: ";
+    cin>>root->seatNo;
+    cout<<"Enter Name: ";
+    cin>>root->name;
+    cout<<"Enter CET: ";
+    cin>>root->cet;
+    cout<<"Enter College (IIT/Non-IIT): ";
+    cin>>root->college;
+    root->lc = root->rc = NULL;
+    Student *next;
+    int ch;
+    do{
+        next = new Student;
+        cout<<"\nEnter Seat No: ";
+        cin>>next->seatNo;
+        cout<<"Enter Name: ";
+        cin>>next->name;
+        cout<<"Enter CET: ";
+        cin>>next->cet;
+        cout<<"Enter College (IIT/Non-IIT): ";
+        cin>>next->college;
+        next->lc = next->rc = NULL;
+
+        insert(root,next);
+
+        cout<<"Add more? (1/0): ";
+        cin>>ch;
+    }while(ch==1);
+}
+void Student::insert(Student *root, Student *next){
+    if(next->seatNo < root->seatNo){
+        if(root->lc==NULL)
+            root->lc = next;
+        else
+            insert(root->lc,next);
+    }
+    else{
+        if(root->rc==NULL)
+            root->rc = next;
+        else
+            insert(root->rc,next);
+    }
+}
+void Student::display(Student *root){
+    if(root==NULL) return;
+    display(root->lc);
+    cout<<"\nSeat: "<<root->seatNo
+        <<"\tName: "<<root->name
+        <<"\tCET: "<<root->cet
+        <<"\tCollege: "<<root->college;
+    display(root->rc);
+}
+void Student::search(Student *root,int seat){
+
+    if(root==NULL){
+        cout<<"\nStudent Not Found!";
+        return;
+    }
+    if(root->seatNo==seat){
+        cout<<"\nStudent Found!";
+        cout<<"\nName: "<<root->name;
+        cout<<"\nCET: "<<root->cet;
+        cout<<"\nCollege: "<<root->college;
+        return;
+    }
+    if(seat < root->seatNo)
+        search(root->lc,seat);
+    else
+        search(root->rc,seat);
+}
+int Student::count(Student *root){
+    if(root==NULL)
+        return 0;
+
+    return 1 + count(root->lc) + count(root->rc);
+}
+int Student::height(Student *root){
+    if(root==NULL)
+        return -1;
+    int leftH = height(root->lc);
+    int rightH = height(root->rc);
+
+    if(leftH > rightH)
+        return leftH + 1;
+    else
+        return rightH + 1;
+}
+void Student::highestCET(Student *root){
+
+    if(root==NULL) return;
+
+    static Student *maxNode = NULL;
+
+    if(maxNode==NULL || root->cet > maxNode->cet)
+        maxNode = root;
+
+    highestCET(root->lc);
+    highestCET(root->rc);
+
+    if(root==::root){
+        cout<<"\nHighest CET Student:";
+        cout<<"\nName: "<<maxNode->name
+            <<"\nCET: "<<maxNode->cet;
+        maxNode=NULL;
+    }
+}
+void Student::lowestCET(Student *root){
+
+    if(root==NULL) return;
+
+    static Student *minNode = NULL;
+
+    if(minNode==NULL || root->cet < minNode->cet)
+        minNode = root;
+
+    lowestCET(root->lc);
+    lowestCET(root->rc);
+
+    if(root==::root){
+        cout<<"\nLowest CET Student:";
+        cout<<"\nName: "<<minNode->name
+            <<"\nCET: "<<minNode->cet;
+        minNode=NULL;
+    }
+}
+void Student::displayIIT(Student *root){
+    if(root==NULL) return;
+
+    displayIIT(root->lc);
+
+    if(root->college=="IIT"){
+        cout<<"\n"<<root->name<<"  CET: "<<root->cet;
+    }
+
+    displayIIT(root->rc);
+}
+void Student::displayNonIIT(Student *root){
+    if(root==NULL) return;
+
+    displayNonIIT(root->lc);
+
+    if(root->college!="IIT"){
+        cout<<"\n"<<root->name<<"  CET: "<<root->cet;
+    }
+    displayNonIIT(root->rc);
+}
+void Student::top3(Student *root,int &cnt){
+
+    if(root==NULL || cnt>=3)
+        return;
+
+    top3(root->rc,cnt);
+
+    if(cnt<3){
+        cout<<"\n"<<root->name<<"  CET: "<<root->cet;
+        cnt++;
+    }
+    top3(root->lc,cnt);
+}
+int main(){
+    Student s;
+    int ch,seat,cnt;
+    do{
+        cout<<"\n1.Create Tree";
+        cout<<"\n2.Display All";
+        cout<<"\n3.Search";
+        cout<<"\n4.Count";
+        cout<<"\n5.Height";
+        cout<<"\n6.Highest CET";
+        cout<<"\n7.Lowest CET";
+        cout<<"\n8.Top 3 Students";
+        cout<<"\n9.IIT Students";
+        cout<<"\n10.Non-IIT Students";
+        cout<<"\n11.Exit";
+        cout<<"\nEnter Choice: ";
+        cin>>ch;
+        switch(ch){
+            case 1:
+                s.create();
+                break;
+            case 2:
+                s.display(root);
+                break;
+            case 3:
+                cout<<"Enter Seat No to search: ";
+                cin>>seat;
+                s.search(root,seat);
+                break;
+            case 4:
+                cout<<"\nTotal Students: "<<s.count(root);
+                break;
+            case 5:
+                cout<<"\nHeight of Tree: "<<s.height(root);
+                break;
+            case 6:
+                s.highestCET(root);
+                break;
+            case 7:
+                s.lowestCET(root);
+                break;
+            case 8:
+                cnt=0;
+                s.top3(root,cnt);
+                break;
+            case 9:
+                s.displayIIT(root);
+                break;
+            case 10:
+                s.displayNonIIT(root);
+                break;
+            case 11:
+                cout<<"Exiting...";
+                break;
+            default:
+                cout<<"Invalid Choice!";
+        }
+    }while(ch!=11);
+    return 0;
+}
